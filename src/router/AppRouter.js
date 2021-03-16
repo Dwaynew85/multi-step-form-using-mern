@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import FirstStep from '../components/FirstStep';
 import Header from '../components/Header';
 
-const AppRouter = () => {
+const AppRouter = () => (
     <Router>
         <div className="container">
             <Header />
@@ -12,6 +12,6 @@ const AppRouter = () => {
             </Switch>
         </div>
     </Router>
-};
+);
 
-export const AppRouter;
+export default AppRouter;
