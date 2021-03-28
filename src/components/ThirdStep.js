@@ -33,9 +33,31 @@ const ThirdStep = (props) => {
             setIsLoading(false);
           }
         };
-      
+
+        const getStates = async () => {
+            try {
+                const result = await csc.getStatesOfCountry(selectedCountry);
+                let allStates = [];
+                allStates = result?.map(({ isoCode, name }) => ({
+                    isoCode,
+                    name
+                }));
+                console.log({ allStates });
+                const [{ isoCode: firstState = '' } = {}] = allStates;
+                setCities([]);
+                setSelectedCity('');
+                setStates(allStates);
+                setSelectedState(firstState);
+            } catch (error) {
+                setStates([]);
+                setCities([]);
+                setSelectedCity('');
+            }
+        };
+        
+        getStates();
         getCountries();
-      }, []);
+      }, [selectedCountry]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
