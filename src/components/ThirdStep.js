@@ -15,49 +15,52 @@ const ThirdStep = (props) => {
     const [selectedCity, setSelectedCity] =useState('');
 
     useEffect(() => {
-        const getCountries = async () => {
-          try {
-            setIsLoading(true);
-            const result = await csc.getAllCountries();
-            let allCountries = [];
-            allCountries = result?.map(({ isoCode, name }) => ({
-              isoCode,
-              name
-            }));
-            const [{ isoCode: firstCountry } = {}] = allCountries;
-            setCountries(allCountries);
-            setSelectedCountry(firstCountry);
-            setIsLoading(false);
-          } catch (error) {
-            setCountries([]);
-            setIsLoading(false);
-          }
-        };
+      const getCountries = async () => {
+        try {
+          setIsLoading(true);
+          const result = await csc.getAllCountries();
+          let allCountries = [];
+          allCountries = result?.map(({ isoCode, name }) => ({
+            isoCode,
+            name
+          }));
+          const [{ isoCode: firstCountry } = {}] = allCountries;
+          setCountries(allCountries);
+          setSelectedCountry(firstCountry);
+          setIsLoading(false);
+        } catch (error) {
+          setCountries([]);
+          setIsLoading(false);
+        }
+      };
+    
+      getCountries();
+    }, []);
 
-        const getStates = async () => {
-            try {
-                const result = await csc.getStatesOfCountry(selectedCountry);
-                let allStates = [];
-                allStates = result?.map(({ isoCode, name }) => ({
-                    isoCode,
-                    name
-                }));
-                console.log({ allStates });
-                const [{ isoCode: firstState = '' } = {}] = allStates;
-                setCities([]);
-                setSelectedCity('');
-                setStates(allStates);
-                setSelectedState(firstState);
-            } catch (error) {
-                setStates([]);
-                setCities([]);
-                setSelectedCity('');
-            }
-        };
-        
-        getStates();
-        getCountries();
-      }, [selectedCountry]);
+    useEffect(() => {
+      const getStates = async () => {
+        try {
+          const result = await csc.getStatesOfCountry(selectedCountry);
+          let allStates = [];
+          allStates = result?.map(({ isoCode, name }) => ({
+            isoCode,
+            name
+          }));
+          console.log({ allStates });
+          const [{ isoCode: firstState = '' } = {}] = allStates;
+          setCities([]);
+          setSelectedCity('');
+          setStates(allStates);
+          setSelectedState(firstState);
+        } catch (error) {
+          setStates([]);
+          setCities([]);
+          setSelectedCity('');
+        }
+      };
+  
+      getStates();
+    }, [selectedCountry]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
