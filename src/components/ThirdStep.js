@@ -57,10 +57,31 @@ const ThirdStep = (props) => {
           setCities([]);
           setSelectedCity('');
         }
-      };
-  
+      };  
       getStates();
     }, [selectedCountry]);
+
+    useEffect(() => {
+      const getCities = async () => {
+        try {
+          const result = await csc.getCitiesOfState(
+            selectedCountry,
+            selectedState
+          );
+          let allCities = [];
+          allCities = result?.map(({ name }) => ({
+            name
+          }));
+          const [{ name: firstCity = '' } = {}] = allCities;
+          setCities(allCities);
+          setSelectedCity(firstCity);
+        } catch (error) {
+          setCities([]);
+        }
+      };
+
+      getCities();
+    }, [selectedState])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
