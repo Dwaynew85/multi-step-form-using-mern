@@ -16,16 +16,34 @@ const AppRouter = () => {
         setUser({});
     };
 
-    <Router>
-        <div className="container">
-            <Header />
-            <Switch>
-                <Route component={FirstStep} path="/" exact={true} />
-                <Route component={SecondStep} path="/second" />
-                <Route component={ThirdStep} path="/third" />
-            </Switch>
-        </div>
-    </Router>
+    return (
+        <Router>
+            <div className="container">
+                <Header />
+                <Switch>
+                    <Route 
+                        render={(props) => (
+                            <FirstStep {...props} user={user} updateUser={updateUser} />
+                        )}
+                        path="/"
+                        exact={true}
+                    />
+                    <Route 
+                        render={(props) => (
+                            <SecondStep {...props} user={user} updateUser={updateUser} />
+                        )}
+                        path="/second"
+                    />
+                    <Route 
+                        render={(props) => (
+                            <ThirdStep {...props} user={user} />
+                        )}
+                        path="/third"
+                    />
+                </Switch>
+            </div>
+        </Router>
+    )
 };
 
 export default AppRouter;
